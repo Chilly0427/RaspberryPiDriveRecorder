@@ -14,6 +14,8 @@ BASE_FILE_NAME = "DriveRecorder" # ファイル名のベース
 FILE_EXT = ".mp4" # ファイル拡張子
 FILE_NAME = "NULL" # ファイル名
 
+WINDOW_NAME = 'Drive Recorder' # ディスプレイウインドウの名前
+
 CAPTURE = cv2.VideoCapture(0) # ビデオキャプチャ
 
 #FPS = int(self.CAPTURE.get(cv2.CAP_PROP_FPS)) # カメラのfps
@@ -57,11 +59,11 @@ while(True): # 動画を取得し続ける
     frame = cv2.resize(frame, WINDOW_SIZE) # 取得したフレームをウインドウサイズに合わせる
 
     # ウインドウの最大化(ディスプレイ側)
-    cv2.namedWindow('Drive Recorder', cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty('Drive Recorder', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.imshow(WINDOW_NAME, frame) # ウインドウに表示する
 
     video_writer.write(frame) # 動画ファイルに書き出す
-    cv2.imshow('Drive Recorder', frame) # ウインドウに表示する
 
     capture_end = time.time() # 1フレーム取得にかかる時間計測終了
     #print("End Time : " + str(capture_end))
@@ -94,6 +96,6 @@ while(True): # 動画を取得し続ける
         break
 
 # 後始末
-video_writer.release()
 CAPTURE.release()
 cv2.destroyAllWindows()
+video_writer.release()
