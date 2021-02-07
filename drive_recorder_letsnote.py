@@ -56,6 +56,10 @@ while(True): # 動画を取得し続ける
 
     frame = cv2.resize(frame, WINDOW_SIZE) # 取得したフレームをウインドウサイズに合わせる
 
+    # ウインドウの最大化(ディスプレイ側)
+    cv2.namedWindow('Drive Recorder', cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty('Drive Recorder', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
     video_writer.write(frame) # 動画ファイルに書き出す
     cv2.imshow('Drive Recorder', frame) # ウインドウに表示する
 
