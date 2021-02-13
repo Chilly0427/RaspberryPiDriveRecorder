@@ -12,6 +12,17 @@ RaspberryPiDriveRecorder
 sudo apt install gpac
 ```
 
+# GPS Setting
+```
+sudo apt-get install gpsd gpsd-clients python-gps
+sudo apt-get install cu
+cd /home/pi/RaspberryPiDriveRecorder/
+sudo cp gpsd /etc/default/
+sudo systemctl enable gpsd.socket
+sudo systemctl start gpsd.socket
+reboot
+```
+
 # Setting service file of PiRecorder
 ```
 cd /home/pi/RaspberryPiDriveRecorder/
