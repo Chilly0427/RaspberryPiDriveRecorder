@@ -4,7 +4,7 @@ Description=Raspberry Pi Drive Recorder
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/usr/bin/bash /home/pi/RaspberryPiDriveRecorder/PiRecorder.sh
+ExecStart=/usr/bin/bash /home/pi/RaspberryPiDriveRecorder/RaspberryPiDriveRecorder.sh
 
 [Install]
 WantedBy=multi-user.target

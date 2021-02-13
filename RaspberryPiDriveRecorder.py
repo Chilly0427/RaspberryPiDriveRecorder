@@ -8,14 +8,24 @@ import time
 import sys
 import os
 
+from subprocess import call
+
 # Const Value
 DIR_NAME = '/home/pi/RaspberryPiDriveRecorder/Video/'
 BASE_FILE_NAME = 'DriveRecorder'
 FILE_EXT = '.h264'
-MOVIE_INTERVAL = 300
+MOVIE_INTERVAL = 10
 MAX_FILE_NUM = 30
 
 # Value
+
+def h264tomp4(FILE_NAME):
+    cmdcnv = "MP4Box -add " + FILE_NAME + " " + FILE_NAME_WITHOUT_EXT + ".mp4"
+    call([cmdcnv], shell = True)
+
+    cmdrm = "rm " + FILE_NAME
+    call([cmdrm], shell = True)
+
 
 # main
 with picamera.PiCamera() as camera:
@@ -35,7 +45,8 @@ with picamera.PiCamera() as camera:
             os.remove(DIR_NAME + files[0])
         dt_now = datetime.datetime.now()
         dt_now_str = dt_now.strftime("%Y%m%d%H%M%S")
-        FILE_NAME = DIR_NAME + str(dt_now_str) + "_" + BASE_FILE_NAME + FILE_EXT
+        FILE_NAME_WITHOUT_EXT = DIR_NAME + str(dt_now_str) + "_" + BASE_FILE_NAME
+        FILE_NAME = FILE_NAME_WITHOUT_EXT + FILE_EXT
 
         camera.start_recording(FILE_NAME)
         start = datetime.datetime.now()
@@ -43,4 +54,6 @@ with picamera.PiCamera() as camera:
             camera.annotate_text = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
             camera.wait_recording(0.2)
         camera.stop_recording()
+        h264tomp4(FILE_NAME)
+
 
