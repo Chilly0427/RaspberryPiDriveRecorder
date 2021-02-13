@@ -1,0 +1,10 @@
+[Unit]
+Description=Raspberry Pi Drive Recorder
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/bash /home/pi/RaspberryPiDriveRecorder/PiRecorder.sh
+
+[Install]
+WantedBy=multi-user.target
