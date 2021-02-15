@@ -7,6 +7,10 @@ ls
 RaspberryPiDriveRecorder
 ```
 
+# USB /etc/fstab
+sudo vi /etc/fstab
+UUID=7BAFDD9068F5FC78 /media/pi/DriveRecorder ntfs-3g defaults 0 0
+
 # Install video convert tool
 ```
 sudo apt install gpac
