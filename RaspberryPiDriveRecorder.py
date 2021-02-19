@@ -31,7 +31,7 @@ FPS = 25
 gps = micropyGPS.MicropyGPS(0, 'dd')
 
 def utctojst(timestamp_utc):
-    datetime_utc = datetime.datetime.strptime(timestamp_utc + "+0000", "%Y-%m-%d %H:%M:%S.%f%z")
+    datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', 'Y-%m-%d %H:%M:%S.%f%z')
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
@@ -49,7 +49,7 @@ def rungps():
 def getgpstime():
     if gps.clean_sentences > 20:
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
-        utc_now = "20" + str(gps.date[2]) + "-" + str(gps.date[1]) + "-" + str(gps.date[0]) + " " + str(h) + ":" + str(gps.timestamp[1]) + ":" + str(gps.timestamp[2])
+        utc_now = '20' + str(gps.date[2]) + '-' + str(gps.date[1]) + '-' + str(gps.date[0]) + ' ' + str(h) + ':' + str(gps.timestamp[1]) + ':' + str(gps.timestamp[2])
         jst = utctojst(utc_now)
         return jst 
 
@@ -128,7 +128,7 @@ def getdatedisplayformat():
     hour = getgpstime_hour(str(getgpstime()))
     minute = getgpstime_minute(str(getgpstime()))
     second = getgpstime_second(str(getgpstime()))
-    date =  str(year) + "/" + str(month) + "/" + str(day) + '(' + str(weekday) + ')' + " " + str(hour) + ":" + str(minute) + ":" + str(second)
+    date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     return date
 
 def getdatefilenameformat():
