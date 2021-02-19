@@ -8,23 +8,20 @@ RaspberryPiDriveRecorder
 ```
 
 # USB /etc/fstab
+```
 sudo vi /etc/fstab
-UUID=7BAFDD9068F5FC78 /media/pi/DriveRecorder ntfs-3g defaults 0 0
+UUID=43EAF0604C063676 /media/pi/DriveRecorder ntfs-3g defaults 0 0
+```
 
 # Install video convert tool
 ```
 sudo apt install gpac
 ```
 
-# GPS Setting
+# Import GPS module
 ```
-sudo apt-get install gpsd gpsd-clients python-gps
-sudo apt-get install cu
-cd /home/pi/RaspberryPiDriveRecorder/
-sudo cp gpsd /etc/default/
-sudo systemctl enable gpsd.socket
-sudo systemctl start gpsd.socket
-reboot
+https://github.com/inmcm/micropyGPS
+import micropyGPS.py
 ```
 
 # Setting service file of PiRecorder
