@@ -31,7 +31,7 @@ FPS = 25
 gps = micropyGPS.MicropyGPS(0, 'dd')
 
 def utctojst(timestamp_utc):
-    datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', 'Y-%m-%d %H:%M:%S.%f%z')
+    datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', '%Y-%m-%d %H:%M:%S.%f%z')
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
