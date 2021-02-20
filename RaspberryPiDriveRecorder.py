@@ -171,6 +171,7 @@ def main():
         camera.framerate = FPS
         camera.start_preview()
         camera.annotate_background = picamera.Color('black')
+        camera.annotate_text_size = 50
         date = getdatedisplayformat()
         speed = str(getgpsspeed()) + ' km/h'
         camera.annotate_text = date + ' ' + speed
