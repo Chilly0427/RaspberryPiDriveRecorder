@@ -16,6 +16,8 @@ import re
 from subprocess import call
 
 # Const Value
+GPS_DEVICE = '/dev/ttyUSB0'
+GPS_BAUDRATE = 9600
 DIR_NAME = '/media/pi/DriveRecorder/Video/'
 BASE_FILE_NAME = 'DriveRecorder'
 FILE_EXT = '.h264'
@@ -37,7 +39,7 @@ def utctojst(timestamp_utc):
     return timestamp_jst
 
 def rungps():
-    s = serial.Serial('/dev/ttyUSB0', 9600, timeout=10)
+    s = serial.Serial(GPS_DEVICE, GPS_BAUDRATE, timeout=10)
     s.readline()
     while True:
         sentence = s.readline().decode('utf-8')
@@ -54,7 +56,7 @@ def getgpstime():
         return jst 
 
 def getgpstime_year(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         year = re.findall('[0-9]+', time)
         year = year[0].zfill(4)
     else:
@@ -62,7 +64,7 @@ def getgpstime_year(time):
     return year
 
 def getgpstime_month(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         month = re.findall('[0-9]+', time)
         month = month[1].zfill(2)
     else:
@@ -70,7 +72,7 @@ def getgpstime_month(time):
     return month
 
 def getgpstime_day(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         day = re.findall('[0-9]+', time)
         day = day[2].zfill(2)
     else:
@@ -78,7 +80,7 @@ def getgpstime_day(time):
     return day
 
 def getgpstime_hour(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         hour = re.findall('[0-9]+', time)
         hour = hour[3].zfill(2)
     else:
@@ -86,7 +88,7 @@ def getgpstime_hour(time):
     return hour
 
 def getgpstime_minute(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         minute = re.findall('[0-9]+', time)
         minute = minute[4].zfill(2)
     else:
@@ -94,9 +96,9 @@ def getgpstime_minute(time):
     return minute
 
 def getgpstime_second(time):
-    if len(time) == 6: 
+    if len(time) > 5: 
         second = re.findall('[0-9]+', time)
-        second = year[5].zfill(2)
+        second = second[5].zfill(2)
     else:
         second = str(datetime.datetime.now().second).zfill(2)
     return second
