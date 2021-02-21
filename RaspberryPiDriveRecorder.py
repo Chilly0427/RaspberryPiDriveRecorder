@@ -14,6 +14,7 @@ import serial
 import threading
 import re
 from subprocess import call
+from multiprocessing import Process
 
 # Const Value
 GPS_DEVICE = '/dev/ttyUSB0'
@@ -24,7 +25,7 @@ FILE_EXT = '.h264'
 MOVIE_INTERVAL = 300
 MAX_FILE_NUM = 300
 
-ROTATION = 270
+ROTATION = 0
 WINDOW_W = 1280
 WINDOW_H = 720
 FPS = 25
@@ -163,7 +164,8 @@ def main():
     list = getH264()
     for n in list:
         ex = os.path.splitext(n)
-        h264tomp4(ex[0])
+        cnvprocess = Process(target=h264tomp4, args=(ex[0], ))
+        cnvprocess.start()
 
     with picamera.PiCamera() as camera:
         camera.rotation = ROTATION
@@ -193,9 +195,9 @@ def main():
                 date = getdatedisplayformat()
                 speed = str(getgpsspeed()) + ' km/h'
                 camera.annotate_text = date + ' ' + speed
-                #camera.wait_recording(0.2)
             camera.stop_recording()
-            h264tomp4(FILE_NAME_WITHOUT_EXT)
+            cnvprocess = Process(target=h264tomp4, args=(FILE_NAME_WITHOUT_EXT, ))
+            cnvprocess.start()
 
 if __name__ == '__main__':
     main()
