@@ -54,7 +54,10 @@ def getgpstime():
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
         utc_now = '20' + str(gps.date[2]) + '-' + str(gps.date[1]) + '-' + str(gps.date[0]) + ' ' + str(h) + ':' + str(gps.timestamp[1]) + ':' + str(gps.timestamp[2])
         jst = utctojst(utc_now)
-        return jst 
+    else:
+        jst = datetime.datetime.now()
+        jst = jst.strftime('%Y-%m-%d %H:%M:%S')
+    return jst 
 
 def getgpstime_year(time):
     if len(time) > 5: 
@@ -107,20 +110,30 @@ def getgpstime_second(time):
 def getgpsspeed():
     if gps.clean_sentences > 20:
         gps_speed = round(gps.speed[2], 1)
-        return gps_speed
+    else:
+        gps_speed = 'NULL'
+    return gps_speed
 
 def getgpsaltitude():
     if gps.clean_sentences > 20:
         gps_altitude = round(gps.altitude, 1)
-        return gps_altitude
+    else:
+        gps_altitude = 'NULL'
+    return gps_altitude
 
 def getgpslatitude():
     if gps.clean_sentences > 20:
-        return gps.latitude[0]
+        gps_latitude = gps.latitude[0]
+    else:
+        gps_latitude = 'NULL'
+    return gps_latitude
 
 def getgpslongitude():
     if gps.clean_sentences > 20:
-        return gps.longitude[0]
+        gps_longitude = gps.longitude[0]
+    else:
+        gps_longitude = 'NULL'
+    return gps_longitude
 
 def getdatedisplayformat():
     year = getgpstime_year(str(getgpstime()))
