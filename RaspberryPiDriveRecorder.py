@@ -19,6 +19,8 @@ from multiprocessing import Process
 # Const Value
 GPS_DEVICE = '/dev/ttyUSB0'
 GPS_BAUDRATE = 9600
+TEXT_SIZE = 50
+
 DIR_NAME = '/media/pi/DriveRecorder/Video/'
 BASE_FILE_NAME = 'DriveRecorder'
 FILE_EXT = '.h264'
@@ -186,7 +188,7 @@ def main():
         camera.framerate = FPS
         camera.start_preview()
         camera.annotate_background = picamera.Color('black')
-        camera.annotate_text_size = 50
+        camera.annotate_text_size = TEXT_SIZE
         date = getdatedisplayformat()
         speed = str(getgpsspeed()) + ' km/h'
         camera.annotate_text = date + ' ' + speed
