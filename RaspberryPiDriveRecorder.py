@@ -51,7 +51,7 @@ def rungps():
         for x in sentence:
             gps.update(x)
 
-def getgpstime():
+def gettime():
     if gps.clean_sentences > 20:
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
         utc_now = '20' + str(gps.date[2]) + '-' + str(gps.date[1]) + '-' + str(gps.date[0]) + ' ' + str(h) + ':' + str(gps.timestamp[1]) + ':' + str(gps.timestamp[2])
@@ -61,7 +61,7 @@ def getgpstime():
         jst = jst.strftime('%Y-%m-%d %H:%M:%S')
     return jst 
 
-def getgpstime_year(time):
+def gettime_year(time):
     if len(time) > 5: 
         year = re.findall('[0-9]+', time)
         year = year[0].zfill(4)
@@ -69,7 +69,7 @@ def getgpstime_year(time):
         year = str(datetime.datetime.now().year).zfill(4)
     return year
 
-def getgpstime_month(time):
+def gettime_month(time):
     if len(time) > 5: 
         month = re.findall('[0-9]+', time)
         month = month[1].zfill(2)
@@ -77,7 +77,7 @@ def getgpstime_month(time):
         month= str(datetime.datetime.now().month).zfill(2)
     return month
 
-def getgpstime_day(time):
+def gettime_day(time):
     if len(time) > 5: 
         day = re.findall('[0-9]+', time)
         day = day[2].zfill(2)
@@ -85,7 +85,7 @@ def getgpstime_day(time):
         day= str(datetime.datetime.now().day).zfill(2)
     return day
 
-def getgpstime_hour(time):
+def gettime_hour(time):
     if len(time) > 5: 
         hour = re.findall('[0-9]+', time)
         hour = hour[3].zfill(2)
@@ -93,7 +93,7 @@ def getgpstime_hour(time):
         hour = str(datetime.datetime.now().hour).zfill(2)
     return hour
 
-def getgpstime_minute(time):
+def gettime_minute(time):
     if len(time) > 5: 
         minute = re.findall('[0-9]+', time)
         minute = minute[4].zfill(2)
@@ -101,7 +101,7 @@ def getgpstime_minute(time):
         minute = str(datetime.datetime.now().minute).zfill(2)
     return minute
 
-def getgpstime_second(time):
+def gettime_second(time):
     if len(time) > 5: 
         second = re.findall('[0-9]+', time)
         second = second[5].zfill(2)
@@ -109,28 +109,28 @@ def getgpstime_second(time):
         second = str(datetime.datetime.now().second).zfill(2)
     return second
 
-def getgpsspeed():
+def getspeed():
     if gps.clean_sentences > 20:
         gps_speed = round(gps.speed[2], 1)
     else:
         gps_speed = 'NULL'
     return gps_speed
 
-def getgpsaltitude():
+def getaltitude():
     if gps.clean_sentences > 20:
         gps_altitude = round(gps.altitude, 1)
     else:
         gps_altitude = 'NULL'
     return gps_altitude
 
-def getgpslatitude():
+def getlatitude():
     if gps.clean_sentences > 20:
         gps_latitude = gps.latitude[0]
     else:
         gps_latitude = 'NULL'
     return gps_latitude
 
-def getgpslongitude():
+def getlongitude():
     if gps.clean_sentences > 20:
         gps_longitude = gps.longitude[0]
     else:
@@ -138,24 +138,24 @@ def getgpslongitude():
     return gps_longitude
 
 def getdatedisplayformat():
-    year = getgpstime_year(str(getgpstime()))
-    month = getgpstime_month(str(getgpstime()))
-    day = getgpstime_day(str(getgpstime()))
+    year = gettime_year(str(gettime()))
+    month = gettime_month(str(gettime()))
+    day = gettime_day(str(gettime()))
     ymd = year + '-' + month + '-' + day
     weekday = datetime.datetime.strptime(ymd, '%Y-%m-%d').strftime('%a')
-    hour = getgpstime_hour(str(getgpstime()))
-    minute = getgpstime_minute(str(getgpstime()))
-    second = getgpstime_second(str(getgpstime()))
+    hour = gettime_hour(str(gettime()))
+    minute = gettime_minute(str(gettime()))
+    second = gettime_second(str(gettime()))
     date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     return date
 
 def getdatefilenameformat():
-    year = getgpstime_year(str(getgpstime()))
-    month = getgpstime_month(str(getgpstime()))
-    day = getgpstime_day(str(getgpstime()))
-    hour = getgpstime_hour(str(getgpstime()))
-    minute = getgpstime_minute(str(getgpstime()))
-    second = getgpstime_second(str(getgpstime()))
+    year = gettime_year(str(gettime()))
+    month = gettime_month(str(gettime()))
+    day = gettime_day(str(gettime()))
+    hour = gettime_hour(str(gettime()))
+    minute = gettime_minute(str(gettime()))
+    second = gettime_second(str(gettime()))
     date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
     return date
 
@@ -190,7 +190,7 @@ def main():
         camera.annotate_background = picamera.Color('black')
         camera.annotate_text_size = TEXT_SIZE
         date = getdatedisplayformat()
-        speed = str(getgpsspeed()) + ' km/h'
+        speed = str(getspeed()) + ' km/h'
         camera.annotate_text = date + ' ' + speed
 
         while(True):
@@ -208,7 +208,7 @@ def main():
             start = datetime.datetime.now()
             while (datetime.datetime.now() - start).seconds < MOVIE_INTERVAL:
                 date = getdatedisplayformat()
-                speed = str(getgpsspeed()) + ' km/h'
+                speed = str(getspeed()) + ' km/h'
                 camera.annotate_text = date + ' ' + speed
             camera.stop_recording()
             cnvprocess = Process(target=h264tomp4, args=(FILE_NAME_WITHOUT_EXT, ))
