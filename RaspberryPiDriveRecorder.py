@@ -111,7 +111,7 @@ def gettime_second(time):
 
 def getspeed():
     if gps.clean_sentences > 20:
-        gps_speed = round(gps.speed[2], 1)
+        gps_speed = round(gps.speed[2])
     else:
         gps_speed = 'NULL'
     return gps_speed
