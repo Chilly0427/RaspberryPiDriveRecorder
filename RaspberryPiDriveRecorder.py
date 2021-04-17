@@ -35,12 +35,14 @@ FPS = 25
 # Variable
 gps = micropyGPS.MicropyGPS(0, 'dd')
 
+# Convert GPS UTC to JST
 def utctojst(timestamp_utc):
     datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', '%Y-%m-%d %H:%M:%S.%f%z')
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
 
+# Run GPS
 def rungps():
     s = serial.Serial(GPS_DEVICE, GPS_BAUDRATE, timeout=10)
     s.readline()
@@ -51,6 +53,7 @@ def rungps():
         for x in sentence:
             gps.update(x)
 
+# Get time
 def gettime():
     if gps.clean_sentences > 20:
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
@@ -61,6 +64,7 @@ def gettime():
         jst = jst.strftime('%Y-%m-%d %H:%M:%S')
     return jst 
 
+# Get year
 def gettime_year(time):
     if len(time) > 5: 
         year = re.findall('[0-9]+', time)
@@ -69,6 +73,7 @@ def gettime_year(time):
         year = str(datetime.datetime.now().year).zfill(4)
     return year
 
+# Get month
 def gettime_month(time):
     if len(time) > 5: 
         month = re.findall('[0-9]+', time)
@@ -77,6 +82,7 @@ def gettime_month(time):
         month= str(datetime.datetime.now().month).zfill(2)
     return month
 
+# Get day
 def gettime_day(time):
     if len(time) > 5: 
         day = re.findall('[0-9]+', time)
@@ -85,6 +91,7 @@ def gettime_day(time):
         day= str(datetime.datetime.now().day).zfill(2)
     return day
 
+# Get hour
 def gettime_hour(time):
     if len(time) > 5: 
         hour = re.findall('[0-9]+', time)
@@ -93,6 +100,7 @@ def gettime_hour(time):
         hour = str(datetime.datetime.now().hour).zfill(2)
     return hour
 
+# Get minute
 def gettime_minute(time):
     if len(time) > 5: 
         minute = re.findall('[0-9]+', time)
@@ -101,6 +109,7 @@ def gettime_minute(time):
         minute = str(datetime.datetime.now().minute).zfill(2)
     return minute
 
+# Get second
 def gettime_second(time):
     if len(time) > 5: 
         second = re.findall('[0-9]+', time)
@@ -109,6 +118,7 @@ def gettime_second(time):
         second = str(datetime.datetime.now().second).zfill(2)
     return second
 
+# Get speed
 def getspeed():
     if gps.clean_sentences > 20:
         gps_speed = round(gps.speed[2])
@@ -116,6 +126,7 @@ def getspeed():
         gps_speed = 'NULL'
     return gps_speed
 
+# Get altitude
 def getaltitude():
     if gps.clean_sentences > 20:
         gps_altitude = round(gps.altitude, 1)
@@ -123,6 +134,7 @@ def getaltitude():
         gps_altitude = 'NULL'
     return gps_altitude
 
+# Get latitude
 def getlatitude():
     if gps.clean_sentences > 20:
         gps_latitude = gps.latitude[0]
@@ -130,6 +142,7 @@ def getlatitude():
         gps_latitude = 'NULL'
     return gps_latitude
 
+# Get longitude
 def getlongitude():
     if gps.clean_sentences > 20:
         gps_longitude = gps.longitude[0]
@@ -137,6 +150,7 @@ def getlongitude():
         gps_longitude = 'NULL'
     return gps_longitude
 
+# Get date display format
 def getdatedisplayformat():
     year = gettime_year(str(gettime()))
     month = gettime_month(str(gettime()))
@@ -149,6 +163,7 @@ def getdatedisplayformat():
     date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     return date
 
+# Get date file name format
 def getdatefilenameformat():
     year = gettime_year(str(gettime()))
     month = gettime_month(str(gettime()))
@@ -159,11 +174,13 @@ def getdatefilenameformat():
     date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
     return date
 
+# Get H.264 list
 def getH264():
     h264list = glob.glob(DIR_NAME + '*' + FILE_EXT, recursive=True)
     print(h264list)
     return h264list
 
+# Convert H.264 to mp4
 def h264tomp4(FILE_NAME_WITHOUT_EXT):
     cmdcnv = 'MP4Box -add ' + FILE_NAME_WITHOUT_EXT + FILE_EXT + ' ' + FILE_NAME_WITHOUT_EXT + '.mp4'
     call([cmdcnv], shell = True)
