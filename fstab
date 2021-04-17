@@ -3,6 +3,4 @@ PARTUUID=bfa21fdc-01  /boot           vfat    defaults          0       2
 PARTUUID=bfa21fdc-02  /               ext4    defaults,noatime  0       1
 # a swapfile is not a swap partition, no line here
 #   use  dphys-swapfile swap[on|off]  for that
-UUID=26611C2C36F5A173 /media/pi/DriveRecorder ntfs-3g defaults 0 0
-
-
+UUID=233E35B02B9139FF /media/pi/DriveRecorder ntfs-3g defaults 0 0
