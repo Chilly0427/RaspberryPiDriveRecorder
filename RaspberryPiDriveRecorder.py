@@ -34,12 +34,18 @@ FPS = 25
 
 # Variable
 gps = micropyGPS.MicropyGPS(0, 'dd')
+time_convert_flag = False
 
 # Convert GPS UTC to JST
 def utctojst(timestamp_utc):
-    datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', '%Y-%m-%d %H:%M:%S.%f%z')
-    datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
-    timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
+    try:
+        datetime_utc = datetime.datetime.strptime(timestamp_utc + '+0000', '%Y-%m-%d %H:%M:%S.%f%z')
+        datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
+        timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
+        time_convert_flag = True
+    except ValueError:
+        print('Time Convert Error(UTC to JST)')
+        time_convert_flag = False
     return timestamp_jst
 
 # Run GPS
@@ -66,7 +72,7 @@ def gettime():
 
 # Get year
 def gettime_year(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         year = re.findall('[0-9]+', time)
         year = year[0].zfill(4)
     else:
@@ -75,7 +81,7 @@ def gettime_year(time):
 
 # Get month
 def gettime_month(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         month = re.findall('[0-9]+', time)
         month = month[1].zfill(2)
     else:
@@ -84,7 +90,7 @@ def gettime_month(time):
 
 # Get day
 def gettime_day(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         day = re.findall('[0-9]+', time)
         day = day[2].zfill(2)
     else:
@@ -93,7 +99,7 @@ def gettime_day(time):
 
 # Get hour
 def gettime_hour(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         hour = re.findall('[0-9]+', time)
         hour = hour[3].zfill(2)
     else:
@@ -102,7 +108,7 @@ def gettime_hour(time):
 
 # Get minute
 def gettime_minute(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         minute = re.findall('[0-9]+', time)
         minute = minute[4].zfill(2)
     else:
@@ -111,7 +117,7 @@ def gettime_minute(time):
 
 # Get second
 def gettime_second(time):
-    if len(time) > 5: 
+    if len(time) > 5 or time_convert_flag == True: 
         second = re.findall('[0-9]+', time)
         second = second[5].zfill(2)
     else:
@@ -120,7 +126,7 @@ def gettime_second(time):
 
 # Get speed
 def getspeed():
-    if gps.clean_sentences > 20:
+    if gps.clean_sentences > 20 or time_convert_flag == True:
         gps_speed = round(gps.speed[2])
     else:
         gps_speed = 'NULL'
@@ -128,7 +134,7 @@ def getspeed():
 
 # Get altitude
 def getaltitude():
-    if gps.clean_sentences > 20:
+    if gps.clean_sentences > 20 or time_convert_flag == True:
         gps_altitude = round(gps.altitude, 1)
     else:
         gps_altitude = 'NULL'
@@ -136,7 +142,7 @@ def getaltitude():
 
 # Get latitude
 def getlatitude():
-    if gps.clean_sentences > 20:
+    if gps.clean_sentences > 20 or time_convert_flag == True:
         gps_latitude = gps.latitude[0]
     else:
         gps_latitude = 'NULL'
@@ -144,7 +150,7 @@ def getlatitude():
 
 # Get longitude
 def getlongitude():
-    if gps.clean_sentences > 20:
+    if gps.clean_sentences > 20 or time_convert_flag == True:
         gps_longitude = gps.longitude[0]
     else:
         gps_longitude = 'NULL'
@@ -160,7 +166,10 @@ def getdatedisplayformat():
     hour = gettime_hour(str(gettime()))
     minute = gettime_minute(str(gettime()))
     second = gettime_second(str(gettime()))
-    date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
+    if time_convert_flag == True:
+        date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
+    else:
+        date =  'NO_GPS ' + str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     return date
 
 # Get date file name format
@@ -171,7 +180,10 @@ def getdatefilenameformat():
     hour = gettime_hour(str(gettime()))
     minute = gettime_minute(str(gettime()))
     second = gettime_second(str(gettime()))
-    date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
+    if time_convert_flag == True:
+        date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
+    else:
+        date =  'NO_GPS_' + str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
     return date
 
 # Get H.264 list
