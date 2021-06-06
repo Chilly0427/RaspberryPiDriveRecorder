@@ -16,6 +16,8 @@ import re
 from subprocess import call
 from multiprocessing import Process
 
+import readtime_ds3231 as rt
+
 # Const Value
 GPS_DEVICE = '/dev/ttyUSB0'
 GPS_BAUDRATE = 9600
@@ -31,6 +33,8 @@ ROTATION = 0
 WINDOW_W = 1280
 WINDOW_H = 720
 FPS = 25
+
+USE_RTC = 1
 
 # Variable
 gps = micropyGPS.MicropyGPS(0, 'dd')
@@ -158,32 +162,58 @@ def getlongitude():
 
 # Get date display format
 def getdatedisplayformat():
-    year = gettime_year(str(gettime()))
-    month = gettime_month(str(gettime()))
-    day = gettime_day(str(gettime()))
-    ymd = year + '-' + month + '-' + day
-    weekday = datetime.datetime.strptime(ymd, '%Y-%m-%d').strftime('%a')
-    hour = gettime_hour(str(gettime()))
-    minute = gettime_minute(str(gettime()))
-    second = gettime_second(str(gettime()))
-    if time_convert_flag == True:
+    global USE_RTC
+
+    if USE_RTC == 1:
+        t = rt.read_rtc()
+        year = format(t[0],'04')
+        month = format(t[1], '02')
+        day = format(t[2], '02')
+        weekday = t[3]
+        hour = format(t[4], '02')
+        minute = format(t[5], '02')
+        second = format(t[6], '02')
         date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     else:
-        date =  'NO_GPS ' + str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
+        year = gettime_year(str(gettime()))
+        month = gettime_month(str(gettime()))
+        day = gettime_day(str(gettime()))
+        ymd = year + '-' + month + '-' + day
+        weekday = datetime.datetime.strptime(ymd, '%Y-%m-%d').strftime('%a')
+        hour = gettime_hour(str(gettime()))
+        minute = gettime_minute(str(gettime()))
+        second = gettime_second(str(gettime()))
+        if time_convert_flag == True:
+            date =  str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
+        else:
+            date =  'NO_GPS ' + str(year) + '/' + str(month) + '/' + str(day) + '(' + str(weekday) + ')' + ' ' + str(hour) + ':' + str(minute) + ':' + str(second)
     return date
 
 # Get date file name format
 def getdatefilenameformat():
-    year = gettime_year(str(gettime()))
-    month = gettime_month(str(gettime()))
-    day = gettime_day(str(gettime()))
-    hour = gettime_hour(str(gettime()))
-    minute = gettime_minute(str(gettime()))
-    second = gettime_second(str(gettime()))
-    if time_convert_flag == True:
-        date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
+    global USE_RTC
+
+    if USE_RTC == 1:
+        t = rt.read_rtc()
+        year = format(t[0],'04')
+        month = format(t[1], '02')
+        day = format(t[2], '02')
+        weekday = t[3]
+        hour = format(t[4], '02')
+        minute = format(t[5], '02')
+        second = format(t[6], '02')
+        date =  str(year) + str(month) + str(day) + str(hour) +  str(minute) + str(second)
     else:
-        date =  'NO_GPS_' + str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
+        year = gettime_year(str(gettime()))
+        month = gettime_month(str(gettime()))
+        day = gettime_day(str(gettime()))
+        hour = gettime_hour(str(gettime()))
+        minute = gettime_minute(str(gettime()))
+        second = gettime_second(str(gettime()))
+        if time_convert_flag == True:
+            date =  str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
+        else:
+            date =  'NO_GPS_' + str(year) + str(month) + str(day) + str(hour) + str(minute) + str(second)
     return date
 
 # Get H.264 list
@@ -228,6 +258,7 @@ def main():
             files = os.listdir(DIR_NAME)
             if len(files) >= MAX_FILE_NUM:
                 files.sort()
+                print(files.sort())
                 os.remove(DIR_NAME + files[0])
             dt_now_str = getdatefilenameformat()
             FILE_NAME_WITHOUT_EXT = DIR_NAME + str(dt_now_str) + '_' + BASE_FILE_NAME

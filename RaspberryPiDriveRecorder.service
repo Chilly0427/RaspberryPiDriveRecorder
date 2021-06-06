@@ -5,6 +5,7 @@ Description=Raspberry Pi Drive Recorder
 Type=simple
 RemainAfterExit=yes
 ExecStart=/usr/bin/bash /home/pi/RaspberryPiDriveRecorder/RaspberryPiDriveRecorder.sh
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
