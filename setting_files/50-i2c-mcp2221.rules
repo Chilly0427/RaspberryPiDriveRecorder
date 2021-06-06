@@ -1,1 +1,1 @@
-SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00dd", RUN+="/home/pi/RaspberryPiDriveRecorder/mcp2221_0_1/driver_load.sh"
+SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00dd", RUN+="/home/pi/RaspberryPiDriveRecorder/setting_files/mcp2221_0_1/driver_load.sh"
