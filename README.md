@@ -134,6 +134,13 @@ pi@raspberrypi:~/RaspberryPiDriveRecorder $ python3 readtime_sample_ds3231.py
 2021-06-06 16:29:53
 ```
 
+##### Disable systemd-timesyncd
+```
+systemctl disable systemd-timesyncd
+Removed /etc/systemd/system/dbus-org.freedesktop.timesync1.service.
+Removed /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service.
+```
+
 ### Setting udev
 ```
 cd /home/pi/RaspberryPiDriveRecorder/setting_files
