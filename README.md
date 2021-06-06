@@ -136,13 +136,13 @@ pi@raspberrypi:~/RaspberryPiDriveRecorder $ python3 readtime_sample_ds3231.py
 
 ### Setting udev
 ```
-cd /home/pi/RaspberryPiDriveRecorder/
+cd /home/pi/RaspberryPiDriveRecorder/setting_files
 sudo cp 50-i2c-mcp2221.rules /etc/udev/rules.d/
 ```
 
 ### Setting service file of PiRecorder
 ```
-cd /home/pi/RaspberryPiDriveRecorder/
+cd /home/pi/RaspberryPiDriveRecorder/setting_files
 sudo cp RaspberryPiDriveRecorder.service /etc/systemd/system/
 sudo systemctl enable RaspberryPiDriveRecorder
 sudo reboot
