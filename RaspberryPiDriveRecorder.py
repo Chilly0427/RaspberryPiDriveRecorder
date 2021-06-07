@@ -32,6 +32,8 @@ ROTATION = 0
 WINDOW_W = 1280
 WINDOW_H = 720
 FPS = 25
+EX_MODE = 'night'
+AWB_MODE = 'sunlight'
 
 # Variable
 gps = micropyGPS.MicropyGPS(0, 'dd')
@@ -174,6 +176,9 @@ def main():
         camera.rotation = ROTATION
         camera.resolution = (WINDOW_W, WINDOW_H)
         camera.framerate = FPS
+        camera.exposure_mode = EX_MODE
+        camera.awb_mode = AWB_MODE
+
         camera.start_preview()
         camera.annotate_background = picamera.Color('black')
         camera.annotate_text_size = TEXT_SIZE
