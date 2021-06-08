@@ -155,3 +155,6 @@ sudo systemctl enable RaspberryPiDriveRecorder
 sudo reboot
 ```
 
+## System launch tuning
+https://nw-electric.way-nifty.com/blog/2017/04/raspberry-pi-ze.html
+https://qiita.com/peace098beat/items/c95f0ba4d9edcf89b023
