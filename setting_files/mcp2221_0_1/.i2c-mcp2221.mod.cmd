@@ -1,1 +1,1 @@
-cmd_/home/pi/work/mcp2221_0_1/i2c-mcp2221.mod := { echo  /home/pi/work/mcp2221_0_1/i2c-mcp2221.o;  echo; } > /home/pi/work/mcp2221_0_1/i2c-mcp2221.mod
+cmd_/home/pi/RaspberryPiDriveRecorder/setting_files/mcp2221_0_1/i2c-mcp2221.mod := { echo  /home/pi/RaspberryPiDriveRecorder/setting_files/mcp2221_0_1/i2c-mcp2221.o;  echo; } > /home/pi/RaspberryPiDriveRecorder/setting_files/mcp2221_0_1/i2c-mcp2221.mod
